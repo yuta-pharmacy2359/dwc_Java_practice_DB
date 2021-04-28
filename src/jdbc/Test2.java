@@ -3,11 +3,9 @@ package jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Test {
-
+public class Test2 {
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost:3306/database01?user=user01&password=password01&useSSL=false";
 
@@ -20,17 +18,10 @@ public class Test {
 		}
 
 		try (Connection connection = DriverManager.getConnection(URL);
-			PreparedStatement statement = connection.prepareStatement("select * from user")) {
-			try (ResultSet resultSet = statement.executeQuery()) {
-				while (resultSet.next()) {
-					System.out.println("----------------------");
-					System.out.println(resultSet.getLong("id"));
-					System.out.println(resultSet.getString("email"));
-					System.out.println(resultSet.getString("name"));
-					System.out.println(resultSet.getDate("created_at"));
-					System.out.println(resultSet.getInt("money"));
-				}
-			}
+			PreparedStatement statement = connection.prepareStatement("insert into user (email, name) values (?, ?)")) {
+				statement.setString(1, "bbb@bbb.bbb");
+				statement.setString(2, "Jiro Yamada");
+				statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
